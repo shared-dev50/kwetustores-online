@@ -1,25 +1,27 @@
 import { HiOutlineShoppingCart, HiOutlineUserCircle } from "react-icons/hi";
 import logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-white mt-[1.5%] mb-[1.5%] rounded-[17px] shadow-lg px-4 lg:px-12 sticky top-0 z-50 gap-4">
+    <div className="navbar bg-white mb-6 rounded-[17px] shadow-lg px-4 lg:px-12 top-4 z-50 gap-4">
       <div className="flex-none">
-        <img
-          src={logo}
-          alt="Kwetu Stores Logo"
-          className="h-30 w-auto object-contain"
-        />
+        <Link to="/">
+          <img
+            src={logo}
+            alt="Kwetu Stores Logo"
+            className="h-20 w-auto object-contain transition-transform hover:scale-105"
+          />
+        </Link>
       </div>
 
       <div className="flex-1 hidden md:flex justify-center px-4">
-        <div className="relative w-full max-w-3xl">
+        <div className="relative w-full max-w-2xl">
           <input
             type="text"
-            placeholder="Search groceries, drinks, electronics..."
-            className="input input-bordered w-full bg-white text-black border-gray-300 focus:border-[#ea580c] focus:outline-none"
+            placeholder="Search groceries, drinks..."
+            className="input input-bordered h-10 w-full bg-white text-black border-gray-300 focus:border-[#ea580c] focus:outline-none"
           />
-
           <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -39,53 +41,46 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex-none flex items-center gap-3 lg:gap-5">
+      <div className="flex-none flex items-center gap-2 lg:gap-4">
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
             role="button"
-            className="btn border-none text-white bg-[#ea580c] hover:bg-[#d94e08] hidden sm:flex"
+            className="btn btn-sm lg:btn-md border-none text-white bg-[#ea580c] hover:bg-[#d94e08] hidden sm:flex"
           >
             Categories
           </div>
           <ul
             tabIndex={0}
-            className="dropdown-content menu bg-white text-black rounded-box z-1 w-52 p-2 shadow mt-2"
+            className="dropdown-content menu bg-white text-black rounded-box z-1 w-52 p-2 shadow-xl mt-2"
           >
             <li>
-              <a>Groceries</a>
+              <Link to="/products">Groceries</Link>
             </li>
             <li>
-              <a>Fruits & Vegetables</a>
+              <Link to="/products">Fruits & Vegetables</Link>
             </li>
             <li>
-              <a>Beverages</a>
-            </li>
-            <li>
-              <a>Electronics</a>
-            </li>
-            <li>
-              <a>Household</a>
+              <Link to="/products">Beverages</Link>
             </li>
           </ul>
         </div>
 
-        {/* Cart */}
-        <div className="btn btn-circle border-none bg-[#ea580c] hover:bg-[#d94e08] text-white">
+        <div className="btn btn-circle btn-ghost text-[#ea580c] hover:bg-orange-50">
           <div className="indicator">
-            <HiOutlineShoppingCart size={24} />
+            <HiOutlineShoppingCart size={26} />
             <span className="badge badge-sm indicator-item bg-black text-white border-none">
               0
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 border-l pl-4 border-gray-200">
+        <div className="flex items-center border-l pl-2 border-gray-200">
           <div className="btn btn-ghost btn-circle text-[#ea580c]">
-            <HiOutlineUserCircle size={28} />
+            <HiOutlineUserCircle size={30} />
           </div>
-          <button className="btn btn-ghost text-black hover:bg-gray-100 hidden lg:block font-semibold">
-            Login / Signup
+          <button className="btn btn-ghost btn-sm text-black hover:bg-gray-100 hidden lg:block font-bold">
+            Login
           </button>
         </div>
       </div>
