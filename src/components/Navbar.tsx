@@ -66,14 +66,17 @@ const Navbar = () => {
           </ul>
         </div>
 
-        <div className="btn btn-circle btn-ghost text-[#ea580c] hover:bg-orange-50">
+        <label
+          htmlFor="my-drawer-5"
+          className="btn btn-ghost btn-circle text-[#ea580c] cursor-pointer"
+        >
           <div className="indicator">
             <HiOutlineShoppingCart size={26} />
             <span className="badge badge-sm indicator-item bg-black text-white border-none">
               0
             </span>
           </div>
-        </div>
+        </label>
 
         <div className="flex items-center border-l pl-2 border-gray-200">
           <div className="btn btn-ghost btn-circle text-[#ea580c]">
