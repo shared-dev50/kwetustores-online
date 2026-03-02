@@ -1,8 +1,10 @@
-import { HiPlus } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ProductCard from "../components/ProductCard";
+import useGetAllProducts from "../hooks/useGetAllProducts";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { data: products } = useGetAllProducts();
 
   return (
     <>
@@ -49,55 +51,13 @@ const Home = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {[1, 2, 3, 4].map(item => (
-            <div
-              key={item}
-              className="group bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:shadow-2xl transition-all duration-300 relative"
-            >
-              <Link to={`/products/${item}`} className="block cursor-pointer">
-                <figure className="bg-[#F3F4F6] rounded-xl h-56 mb-4 flex items-center justify-center overflow-hidden">
-                  <div className="text-gray-400 group-hover:scale-110 transition-transform duration-500">
-                    <span className="text-xs font-medium uppercase tracking-widest">
-                      View Product
-                    </span>
-                  </div>
-                </figure>
-
-                <div className="space-y-1">
-                  <h3 className="font-bold text-slate-800 text-lg truncate group-hover:text-[#ea580c] transition-colors">
-                    Product #{item}
-                  </h3>
-                  <p className="text-sm text-gray-500">500g / 1kg</p>
-                </div>
-              </Link>
-
-              <div className="flex items-center justify-between pt-4">
-                <div>
-                  <span className="text-2xl font-black text-slate-900">
-                    $ 2
-                  </span>
-                  <span className="text-sm text-gray-400 line-through ml-2">
-                    $ 3
-                  </span>
-                </div>
-
-                <button
-                  onClick={e => {
-                    e.preventDefault();
-                    console.log("Added to cart");
-                  }}
-                  className="btn btn-square bg-[#ea580c] hover:bg-[#d94e08] border-none text-white shadow-md z-20"
-                >
-                  <HiPlus size={20} />
-                </button>
-              </div>
-
-              <div className="absolute top-6 left-6 pointer-events-none">
-                <div className="badge border-none bg-[#ea580c] text-white font-bold p-3">
-                  -15% OFF
-                </div>
-              </div>
-            </div>
+          {products?.slice(0, 4).map(product => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              showDiscount
+              discountPercentage={15}
+            />
           ))}
         </div>
       </div>
