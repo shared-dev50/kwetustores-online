@@ -1,8 +1,12 @@
 import { HiOutlineShoppingCart, HiOutlineUserCircle } from "react-icons/hi";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
+import { useCartStore } from "../stores/useCartStore";
 
 const Navbar = () => {
+  const cart = useCartStore(state => state.cart);
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
   return (
     <div className="navbar bg-white mb-6 rounded-[17px] shadow-lg px-4 lg:px-12 top-4 z-50 gap-4">
       <div className="flex-none">
@@ -72,9 +76,11 @@ const Navbar = () => {
         >
           <div className="indicator">
             <HiOutlineShoppingCart size={26} />
-            <span className="badge badge-sm indicator-item bg-black text-white border-none">
-              0
-            </span>
+            {totalItems > 0 && (
+              <span className="badge badge-sm indicator-item bg-black text-white border-none animate-in fade-in zoom-in duration-300">
+                {totalItems}
+              </span>
+            )}
           </div>
         </label>
 
