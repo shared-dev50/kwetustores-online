@@ -4,14 +4,13 @@ import type { CartItem } from "../entities/types";
 interface CartState {
   cart: CartItem[];
   addItem: (item: CartItem) => void;
-  removeItem: (id: number) => void;
-  updateQuantity: (id: number, amount: number) => void;
+  removeItem: (id: string) => void;
+  updateQuantity: (id: string, amount: number) => void;
   clearCart: () => void;
 }
 
 export const useCartStore = create<CartState>((set, get) => ({
   cart: [],
-  isProcessing: false,
 
   addItem: newItem => {
     const { cart } = get();

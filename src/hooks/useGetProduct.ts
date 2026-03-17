@@ -1,15 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Product } from "../entities/types";
 import APIClient from "../services/apiClient";
-const apiClient = new APIClient<Product>("/api/v1/products");
+import type { CloverItem, ApiResponse } from "../entities/types";
 
-const useProduct = (id: number | string) => {
+const apiClient = new APIClient<ApiResponse<CloverItem>>(
+  "/api/clover/inventory",
+);
+
+const useProduct = (id: string) => {
   return useQuery({
-    queryKey: ["products", id],
-
+    queryKey: ["product", id],
     queryFn: () => apiClient.getProduct(id),
-
-    staleTime: 5 * 60 * 1000,
+    select: response => response.data,
+    enabled: !!id,
   });
 };
 

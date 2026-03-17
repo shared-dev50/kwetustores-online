@@ -12,15 +12,22 @@ class APIClient<T> {
   constructor(endpoint: string) {
     this.endpoint = endpoint;
     this.axiosInstance = axios.create({
-      baseURL: "https://api.escuelajs.co",
+      baseURL: "http://localhost:3000",
     });
   }
 
   getAll = async (config?: AxiosRequestConfig): Promise<T[]> => {
     try {
-      const res = await this.axiosInstance.get<T[]>(this.endpoint, config);
-      return res.data;
-    } catch {
+      const res = await this.axiosInstance.get<ApiResponse<T[]>>(
+        this.endpoint,
+        config,
+      );
+
+      console.log("Full Response:", res.data);
+
+      return res.data.data;
+    } catch (error) {
+      console.error("Fetch error:", error);
       throw new Error("Failed to fetch products");
     }
   };

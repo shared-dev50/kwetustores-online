@@ -1,25 +1,54 @@
-export interface Product {
-  id: number;
-  title: string;
-  slug: string;
-  price: number;
-  description: string;
-  category: Category;
-  images: string[];
-  creationAt: string;
-  updatedAt: string;
-}
-
 export interface CartItem {
-  product: Product;
+  product: CloverItem;
   quantity: number;
 }
 
-export interface Category {
-  id: number;
+export interface CloverImage {
+  url: string;
+}
+
+export interface CloverCategory {
+  id?: string;
+  name?: string;
+}
+
+export interface CloverTag {
+  id?: string;
+  name?: string;
+}
+
+export interface CloverItem {
+  id: string;
   name: string;
-  slug: string;
-  image: string;
-  creationAt: string;
-  updatedAt: string;
+  price: number;
+  code: string;
+  sku: string;
+  stockCount: number;
+  available: boolean;
+  hidden: boolean;
+  onlineName: string;
+  description: string;
+  enabledOnline: boolean;
+  modifiedTime: number;
+
+  categories: {
+    elements: CloverCategory[];
+  };
+  tags: {
+    elements: CloverTag[];
+  };
+  images: {
+    elements: CloverImage[];
+  };
+
+  priceType: "FIXED" | "VARIABLE";
+  unitName: string;
+  isAgeRestricted: boolean;
+  deleted: boolean;
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
 }

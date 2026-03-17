@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import APIClient from "../services/apiClient";
-import type { Product } from "../entities/types";
+import type { CloverItem } from "../entities/types";
 
-const apiClient = new APIClient<Product>("/api/v1/products");
+const apiClient = new APIClient<CloverItem>("/api/clover/inventory");
 
 const useGetAllProducts = () => {
   return useQuery({
