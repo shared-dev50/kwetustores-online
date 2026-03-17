@@ -24,11 +24,17 @@ const Home = () => {
             Stores.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="btn border-none bg-[#ea580c] hover:bg-[#d94e08] text-white px-8 h-14 rounded-full shadow-lg transition-all hover:scale-105">
+            <button
+              className="btn border-none bg-[#ea580c] hover:bg-[#d94e08] text-white px-8 h-14 rounded-full shadow-lg transition-all hover:scale-105"
+              onClick={() => navigate("/products")}
+            >
               Start Shopping
             </button>
-            <button className="btn btn-outline border-[#ea580c] text-[#ea580c] hover:bg-[#ea580c] hover:border-[#ea580c] hover:text-white px-8 h-14 rounded-full transition-all">
-              View Deals
+            <button
+              className="btn btn-outline border-[#ea580c] text-[#ea580c] hover:bg-[#ea580c] hover:border-[#ea580c] hover:text-white px-8 h-14 rounded-full transition-all"
+              onClick={() => navigate("/products")}
+            >
+              View All Items
             </button>
           </div>
         </div>
@@ -40,7 +46,6 @@ const Home = () => {
             <h2 className="text-3xl font-bold text-slate-800">
               Featured Items
             </h2>
-            <p className="text-slate-500">The most popular picks this week</p>
           </div>
           <button
             className="text-[#ea580c] font-semibold hover:cursor-pointer hover:underline"
@@ -52,12 +57,7 @@ const Home = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {products?.slice(0, 4).map(product => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              showDiscount
-              discountPercentage={15}
-            />
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </div>

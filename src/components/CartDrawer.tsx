@@ -53,55 +53,68 @@ const CartDrawer = () => {
             </div>
           ) : (
             <div className="space-y-4">
-              {cart.map(item => (
-                <div
-                  key={item.product.id}
-                  className="flex gap-4 bg-gray-50 p-3 rounded-2xl"
-                >
-                  <img
-                    src={item.product.images[0]}
-                    alt={item.product.title}
-                    className="w-20 h-20 object-cover rounded-xl bg-white"
-                  />
-                  <div className="flex-1 flex flex-col justify-between">
-                    <div>
-                      <h3 className="font-bold text-sm line-clamp-1">
-                        {item.product.title}
-                      </h3>
-                      <p className="text-[#ea580c] font-black text-sm">
-                        $ {item.product.price.toLocaleString()}
-                      </p>
+              {cart.map(item => {
+                const itemImage = item.product.images?.elements?.[0]?.url;
+
+                return (
+                  <div
+                    key={item.product.id}
+                    className="flex gap-4 bg-gray-50 p-3 rounded-2xl"
+                  >
+                    <div className="w-20 h-20 bg-white rounded-xl overflow-hidden shrink-0 border border-gray-100 flex items-center justify-center">
+                      {itemImage ? (
+                        <img
+                          src={itemImage}
+                          alt={item.product.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-[10px] text-gray-400 font-bold uppercase p-1 text-center">
+                          {item.product.name}
+                        </span>
+                      )}
                     </div>
 
-                    <div className="flex justify-between items-center mt-2">
-                      <div className="flex items-center gap-3 bg-white border rounded-full px-2 py-1">
-                        <button
-                          onClick={() => updateQuantity(item.product.id, -1)}
-                          className="text-gray-500 hover:text-[#ea580c] cursor-pointer"
-                        >
-                          <HiMinus size={14} />
-                        </button>
-                        <span className="text-sm font-bold">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => updateQuantity(item.product.id, 1)}
-                          className="text-gray-500 hover:text-[#ea580c] cursor-pointer"
-                        >
-                          <HiPlus size={14} />
-                        </button>
+                    <div className="flex-1 flex flex-col justify-between">
+                      <div>
+                        <h3 className="font-bold text-sm line-clamp-1">
+                          {item.product.name}
+                        </h3>
+                        <p className="text-[#ea580c] font-black text-sm">
+                          ${item.product.price.toLocaleString()}
+                        </p>
                       </div>
 
-                      <button
-                        onClick={() => removeItem(item.product.id)}
-                        className="text-red-400 hover:text-red-600 transition-colors cursor-pointer"
-                      >
-                        <HiTrash size={18} />
-                      </button>
+                      <div className="flex justify-between items-center mt-2">
+                        <div className="flex items-center gap-3 bg-white border rounded-full px-2 py-1">
+                          <button
+                            onClick={() => updateQuantity(item.product.id, -1)}
+                            className="text-gray-500 hover:text-[#ea580c] cursor-pointer"
+                          >
+                            <HiMinus size={14} />
+                          </button>
+                          <span className="text-sm font-bold">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() => updateQuantity(item.product.id, 1)}
+                            className="text-gray-500 hover:text-[#ea580c] cursor-pointer"
+                          >
+                            <HiPlus size={14} />
+                          </button>
+                        </div>
+
+                        <button
+                          onClick={() => removeItem(item.product.id)}
+                          className="text-red-400 hover:text-red-600 transition-colors cursor-pointer"
+                        >
+                          <HiTrash size={18} />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -110,7 +123,7 @@ const CartDrawer = () => {
           <div className="flex justify-between items-center">
             <span className="text-gray-500 font-medium">Subtotal</span>
             <span className="text-xl font-black text-slate-900">
-              $ {subtotal.toLocaleString()}
+              ${subtotal.toLocaleString()}
             </span>
           </div>
 
