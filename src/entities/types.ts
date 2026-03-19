@@ -24,6 +24,7 @@ export interface CloverItem {
   code: string;
   sku: string;
   stockCount: number;
+  stockQuantity: number;
   available: boolean;
   hidden: boolean;
   onlineName: string;

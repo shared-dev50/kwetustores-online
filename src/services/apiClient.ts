@@ -23,12 +23,12 @@ class APIClient<T> {
         config,
       );
 
-      console.log("Full Response:", res.data);
+      console.log(`Fetch successful for ${this.endpoint}:`, res.data);
 
       return res.data.data;
     } catch (error) {
-      console.error("Fetch error:", error);
-      throw new Error("Failed to fetch products");
+      console.error(`Fetch error at ${this.endpoint}:`, error);
+      throw new Error(`Failed to fetch from ${this.endpoint}`);
     }
   };
 

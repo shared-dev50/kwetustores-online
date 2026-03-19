@@ -6,6 +6,10 @@ const Home = () => {
   const navigate = useNavigate();
   const { data: products } = useGetAllProducts();
 
+  const featuredProducts = products
+    ?.filter(product => (product.stockQuantity ?? 0) > 0)
+    .slice(0, 4);
+
   return (
     <>
       <div className="relative overflow-hidden bg-[#FFF5F0] rounded-[30px] my-6 py-16 lg:py-24">
@@ -15,14 +19,17 @@ const Home = () => {
           <span className="text-[#ea580c] font-bold tracking-widest uppercase text-sm">
             Fresh & Local
           </span>
+
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6 text-slate-900 leading-tight">
             Freshness Delivered to <br />
             <span className="text-[#ea580c]">Your Doorstep.</span>
           </h1>
+
           <p className="mb-8 text-slate-600 text-lg">
             Shop groceries, household essentials, and electronics from Kwetu
             Stores.
           </p>
+
           <div className="flex flex-wrap justify-center gap-4">
             <button
               className="btn border-none bg-[#ea580c] hover:bg-[#d94e08] text-white px-8 h-14 rounded-full shadow-lg transition-all hover:scale-105"
@@ -30,6 +37,7 @@ const Home = () => {
             >
               Start Shopping
             </button>
+
             <button
               className="btn btn-outline border-[#ea580c] text-[#ea580c] hover:bg-[#ea580c] hover:border-[#ea580c] hover:text-white px-8 h-14 rounded-full transition-all"
               onClick={() => navigate("/products")}
@@ -55,11 +63,17 @@ const Home = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products?.slice(0, 4).map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {featuredProducts && featuredProducts.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {featuredProducts.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-10 text-slate-400 italic">
+            Check back soon for more fresh arrivals!
+          </div>
+        )}
       </div>
     </>
   );
