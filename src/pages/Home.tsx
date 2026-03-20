@@ -70,10 +70,10 @@ const Home = () => {
           </div>
 
           <button
-            className="font-semibold text-[#ea580c] hover:cursor-pointer hover:underline"
+            className="font-bold text-[#ea580c] hover:cursor-pointer hover:underline"
             onClick={() => navigate("/products")}
           >
-            View All
+            View All Products
           </button>
         </div>
 

@@ -115,8 +115,7 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                 Checkout
               </h1>
               <p className="mt-2 text-sm text-slate-500">
-                Fill in your details and complete your order securely with
-                Clover.
+                Fill in your details and complete your order securely.
               </p>
             </div>
 
@@ -149,7 +148,7 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
 
             <section className="space-y-5">
               <div>
-                <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-slate-400">
+                <h2 className="text-2xl font-bold uppercase tracking-[0.18em] text-slate-400">
                   Customer Information
                 </h2>
               </div>
@@ -184,7 +183,7 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                     required
                     value={formData.phone}
                     className={inputClass}
-                    placeholder="+254..."
+                    placeholder="+1..."
                     onChange={e => updateField("phone", e.target.value)}
                   />
                 </div>
@@ -218,7 +217,7 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                     <input
                       value={formData.addressLine2}
                       className={inputClass}
-                      placeholder="Apartment 4B, Floor 2, etc."
+                      placeholder="Apt#"
                       onChange={e =>
                         updateField("addressLine2", e.target.value)
                       }
@@ -232,7 +231,7 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                         required
                         value={formData.city}
                         className={inputClass}
-                        placeholder="New York"
+                        placeholder="Seattle"
                         onChange={e => updateField("city", e.target.value)}
                       />
                     </div>
@@ -244,7 +243,7 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                         maxLength={2}
                         value={formData.state}
                         className={`${inputClass} uppercase`}
-                        placeholder="NY"
+                        placeholder="WA"
                         onChange={e => updateField("state", e.target.value)}
                       />
                     </div>
@@ -257,7 +256,7 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                         pattern="[0-9]*"
                         value={formData.zip}
                         className={inputClass}
-                        placeholder="10001"
+                        placeholder="98409"
                         onChange={e => updateField("zip", e.target.value)}
                       />
                     </div>
@@ -321,7 +320,7 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
               disabled={loading || cart.length === 0}
               className="mt-8 flex h-14 w-full items-center justify-center rounded-2xl bg-orange-600 px-6 text-sm font-black text-white transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {loading ? "Processing..." : "Pay with Clover"}
+              {loading ? "Processing..." : "Pay"}
             </button>
           </div>
         </div>
