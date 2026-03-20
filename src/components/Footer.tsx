@@ -1,89 +1,64 @@
-import { FaFacebook, FaTwitter, FaInstagram, FaWhatsapp } from "react-icons/fa";
-import { ImPaypal } from "react-icons/im";
-import { RiVisaLine } from "react-icons/ri";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaWhatsapp,
+  FaPhoneAlt,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="footer footer-center p-10 bg-white text-slate-600 rounded-t-[40px] shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.05)] border-t border-gray-100 mt-10">
-      <div className="max-w-7xl w-full">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-left mb-10">
+    <footer className="mt-12 rounded-t-[40px] border-t border-slate-200 bg-white text-slate-600 shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.05)]">
+      <div className="mx-auto max-w-7xl px-6 py-10">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           <div className="space-y-4">
             <h2 className="text-2xl font-black text-[#ea580c]">Kwetu Stores</h2>
-            <p className="text-sm leading-relaxed">
-              Bringing the freshest groceries and daily essentials right to your
-              doorstep. Quality you can trust.
+            <p className="max-w-md text-sm leading-6 text-slate-500">
+              Fresh groceries and everyday essentials for your home, with simple
+              ordering and convenient pickup or delivery.
             </p>
-            <div className="flex gap-4 text-[#ea580c]">
+
+            <div className="flex gap-4 pt-1 text-[#ea580c]">
               <FaFacebook
-                size={20}
-                className="cursor-pointer hover:scale-110 transition-transform"
+                size={18}
+                className="cursor-pointer transition-transform hover:scale-110"
               />
               <FaInstagram
-                size={20}
-                className="cursor-pointer hover:scale-110 transition-transform"
-              />
-              <FaTwitter
-                size={20}
-                className="cursor-pointer hover:scale-110 transition-transform"
+                size={18}
+                className="cursor-pointer transition-transform hover:scale-110"
               />
               <FaWhatsapp
-                size={20}
-                className="cursor-pointer hover:scale-110 transition-transform"
+                size={18}
+                className="cursor-pointer transition-transform hover:scale-110"
               />
             </div>
           </div>
 
           <div>
-            <h3 className="font-bold text-slate-900 mb-4 uppercase text-xs tracking-widest">
-              Shop
+            <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900">
+              Quick Links
             </h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-3 text-sm">
               <li>
-                <a className="hover:text-[#ea580c] transition-colors cursor-pointer">
-                  All Categories
-                </a>
+                <Link
+                  to="/products"
+                  className="transition-colors hover:text-[#ea580c]"
+                >
+                  Shop All Products
+                </Link>
               </li>
-              <li>
-                <a className="hover:text-[#ea580c] transition-colors cursor-pointer">
-                  Fresh Produce
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-[#ea580c] transition-colors cursor-pointer">
-                  Weekly Deals
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-[#ea580c] transition-colors cursor-pointer">
-                  New Arrivals
-                </a>
-              </li>
-            </ul>
-          </div>
 
-          {/* Help & Support */}
-          <div>
-            <h3 className="font-bold text-slate-900 mb-4 uppercase text-xs tracking-widest">
-              Support
-            </h3>
-            <ul className="space-y-2 text-sm">
               <li>
-                <a className="hover:text-[#ea580c] transition-colors cursor-pointer">
-                  Track Order
-                </a>
+                <Link
+                  to="/checkout"
+                  className="transition-colors hover:text-[#ea580c]"
+                >
+                  Checkout
+                </Link>
               </li>
               <li>
-                <a className="hover:text-[#ea580c] transition-colors cursor-pointer">
-                  Delivery Areas
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-[#ea580c] transition-colors cursor-pointer">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-[#ea580c] transition-colors cursor-pointer">
+                <a className="transition-colors hover:text-[#ea580c] cursor-pointer">
                   Contact Us
                 </a>
               </li>
@@ -91,27 +66,37 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-bold text-slate-900 mb-4 uppercase text-xs tracking-widest">
-              Stay Updated
+            <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900">
+              Store Information
             </h3>
-            <div className="join w-full">
-              <input
-                className="input input-bordered join-item w-full bg-gray-50 border-gray-200 focus:outline-none focus:border-[#ea580c]"
-                placeholder="Email address"
-              />
-              <button className="btn join-item bg-[#ea580c] hover:bg-[#d94e08] border-none text-white px-4">
-                Join
-              </button>
+
+            <div className="space-y-4 text-sm text-slate-500">
+              <div className="flex items-start gap-3">
+                <FaMapMarkerAlt className="mt-1 shrink-0 text-[#ea580c]" />
+                <div>
+                  <p>6402 S Tacoma Way</p>
+                  <p>Tacoma, WA 98409</p>
+                  <p>United States</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <FaPhoneAlt className="shrink-0 text-[#ea580c]" />
+                <a
+                  href="tel:+12533459965"
+                  className="transition-colors hover:text-[#ea580c]"
+                >
+                  (253) 345-9965
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm font-medium">© 2026 Kwetu Stores Online.</p>
-          <div className="flex gap-4">
-            <ImPaypal className="h-4 w-4 opacity-50" />
-            <RiVisaLine className="h-4 w-4 opacity-50" />
-          </div>
+        <div className="mt-8 border-t border-slate-100 pt-6 text-center">
+          <p className="text-sm font-medium text-slate-500">
+            © 2026 Kwetu Stores Online. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

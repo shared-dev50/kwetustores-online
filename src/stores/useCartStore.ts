@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 import type { CartItem } from "../entities/types";
 
 interface CartState {
@@ -9,39 +10,47 @@ interface CartState {
   clearCart: () => void;
 }
 
-export const useCartStore = create<CartState>((set, get) => ({
-  cart: [],
+export const useCartStore = create<CartState>()(
+  persist(
+    (set, get) => ({
+      cart: [],
 
-  addItem: newItem => {
-    const { cart } = get();
-    const existing = cart.find(i => i.product.id === newItem.product.id);
+      addItem: newItem => {
+        const { cart } = get();
+        const existing = cart.find(i => i.product.id === newItem.product.id);
 
-    if (existing) {
-      set({
-        cart: cart.map(i =>
-          i.product.id === newItem.product.id
-            ? { ...i, quantity: i.quantity + newItem.quantity }
-            : i,
-        ),
-      });
-    } else {
-      set({ cart: [...cart, newItem] });
-    }
-  },
+        if (existing) {
+          set({
+            cart: cart.map(i =>
+              i.product.id === newItem.product.id
+                ? { ...i, quantity: i.quantity + newItem.quantity }
+                : i,
+            ),
+          });
+        } else {
+          set({ cart: [...cart, newItem] });
+        }
+      },
 
-  removeItem: id =>
-    set(state => ({
-      cart: state.cart.filter(item => item.product.id !== id),
-    })),
+      removeItem: id =>
+        set(state => ({
+          cart: state.cart.filter(item => item.product.id !== id),
+        })),
 
-  updateQuantity: (id, amount) =>
-    set(state => ({
-      cart: state.cart.map(item =>
-        item.product.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + amount) }
-          : item,
-      ),
-    })),
+      updateQuantity: (id, amount) =>
+        set(state => ({
+          cart: state.cart.map(item =>
+            item.product.id === id
+              ? { ...item, quantity: Math.max(1, item.quantity + amount) }
+              : item,
+          ),
+        })),
 
-  clearCart: () => set({ cart: [] }),
-}));
+      clearCart: () => set({ cart: [] }),
+    }),
+    {
+      name: "kwetu-cart-storage",
+      storage: createJSONStorage(() => localStorage),
+    },
+  ),
+);
