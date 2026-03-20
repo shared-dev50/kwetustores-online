@@ -6,8 +6,10 @@ import {
   HiTrash,
 } from "react-icons/hi";
 import { useCartStore } from "../stores/useCartStore";
+import { useNavigate } from "react-router-dom";
 
 const CartDrawer = () => {
+  const navigate = useNavigate();
   const { cart, removeItem, updateQuantity } = useCartStore();
 
   const subtotal = cart.reduce(
@@ -81,7 +83,7 @@ const CartDrawer = () => {
                           {item.product.name}
                         </h3>
                         <p className="text-[#ea580c] font-black text-sm">
-                          ${item.product.price.toLocaleString()}
+                          ${item.product.price.toFixed(2)}
                         </p>
                       </div>
 
@@ -123,15 +125,23 @@ const CartDrawer = () => {
           <div className="flex justify-between items-center">
             <span className="text-gray-500 font-medium">Subtotal</span>
             <span className="text-xl font-black text-slate-900">
-              ${subtotal.toLocaleString()}
+              ${subtotal.toFixed(2)}
             </span>
           </div>
 
           <button
+            onClick={() => {
+              const drawerCheckbox = document.getElementById(
+                "my-drawer-5",
+              ) as HTMLInputElement;
+              if (drawerCheckbox) drawerCheckbox.checked = false;
+
+              navigate("/checkout");
+            }}
             disabled={cart.length === 0}
-            className="btn btn-primary w-full bg-[#ea580c] hover:bg-[#d94e08] border-none text-white font-bold text-lg shadow-lg disabled:bg-gray-300"
+            className="btn w-full bg-[#ea580c] hover:bg-[#d94e08] border-none text-white font-bold text-lg shadow-lg h-14"
           >
-            Checkout Now
+            Proceed to Checkout
           </button>
 
           <p className="text-center text-xs text-gray-400">

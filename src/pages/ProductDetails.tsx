@@ -57,7 +57,7 @@ const ProductDetails = () => {
 
             <div className="flex items-center gap-4 mb-6">
               <span className="text-3xl font-bold text-slate-800">
-                ${product.price ? product.price : 0}
+                ${product.price ? product.price.toFixed(2) : 0}
               </span>
 
               {product.available !== false ? (
