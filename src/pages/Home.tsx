@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import useGetAllProducts from "../hooks/useGetAllProducts";
 import { useMemo } from "react";
+import kwetu from "../assets/kwetu.png";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -21,79 +22,46 @@ const Home = () => {
 
   return (
     <>
-      <div className="relative my-4 overflow-hidden rounded-[30px] bg-[#FFF5F0] py-12 lg:py-16">
-        <div className="absolute right-[-5%] top-[-10%] h-96 w-96 rounded-full bg-[#ea580c15] blur-3xl" />
+      <div
+        className="relative my-4 overflow-hidden rounded-[40px] bg-cover bg-top py-24 lg:py-32"
+        style={{ backgroundImage: `url(${kwetu})` }}
+      >
+        <div className="absolute inset-0 z-0 bg-linear-to-l from-slate-900/80 via-slate-900/50 to-transparent" />
 
-        <div className="relative z-10 mx-auto max-w-5xl px-6">
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="grid items-center gap-10 lg:grid-cols-2">
-            <div className="max-w-2xl">
-              <span className="text-sm font-bold uppercase tracking-widest text-[#ea580c]">
-                Fresh groceries, every day
+            <div className="hidden lg:block" />
+
+            <div className="max-w-2xl text-center lg:text-right">
+              <span className="text-sm font-bold uppercase tracking-widest text-orange-400">
+                Home Flavors, Global Reach
               </span>
 
-              <h1 className="mt-4 text-4xl font-extrabold leading-tight text-slate-900 md:text-6xl">
+              <h1 className="mt-4 text-4xl font-extrabold leading-tight text-white md:text-6xl">
                 Fresh food and daily essentials,
                 <span className="text-[#ea580c]"> all in one place.</span>
               </h1>
 
-              <p className="mt-5 text-lg text-slate-600">
+              <p className="mt-5 text-lg text-slate-100/90">
                 Shop fresh produce, pantry staples, beverages, cleaning
                 supplies, and everyday household essentials from Kwetu Stores.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-4">
+              <div className="mt-10 flex flex-wrap justify-center gap-4 lg:justify-end">
                 <button
-                  className="btn h-14 rounded-full border-none bg-[#ea580c] px-8 text-white shadow-lg transition-all hover:scale-105 hover:bg-[#d94e08]"
+                  className="btn h-14 rounded-full border-none bg-[#ea580c] px-10 text-white shadow-lg transition-all hover:scale-105 hover:bg-[#d94e08]"
                   onClick={() => navigate("/products")}
                 >
                   Shop Now
                 </button>
-
-                <button
-                  className="btn btn-outline h-14 rounded-full border-[#ea580c] px-8 text-[#ea580c] transition-all hover:border-[#ea580c] hover:bg-[#ea580c] hover:text-white"
-                  onClick={() => navigate("/products")}
-                >
-                  Browse Categories
-                </button>
-              </div>
-            </div>
-
-            <div className="hidden lg:block">
-              <div className="rounded-[28px] bg-white/70 p-6 shadow-sm backdrop-blur-sm border border-orange-100">
-                <div className="grid grid-cols-2 gap-4 text-sm text-slate-700">
-                  <div className="rounded-2xl bg-white p-4">
-                    <p className="font-bold text-slate-900">Fresh Produce</p>
-                    <p className="mt-1 text-slate-500">
-                      Fruits and vegetables picked for everyday freshness
-                    </p>
-                  </div>
-                  <div className="rounded-2xl bg-white p-4">
-                    <p className="font-bold text-slate-900">Pantry Staples</p>
-                    <p className="mt-1 text-slate-500">
-                      Flour, rice, sugar, cooking oil, and more
-                    </p>
-                  </div>
-                  <div className="rounded-2xl bg-white p-4">
-                    <p className="font-bold text-slate-900">Home Essentials</p>
-                    <p className="mt-1 text-slate-500">
-                      Cleaning products and everyday household needs
-                    </p>
-                  </div>
-                  <div className="rounded-2xl bg-white p-4">
-                    <p className="font-bold text-slate-900">Fast & Easy</p>
-                    <p className="mt-1 text-slate-500">
-                      A simple way to shop what you need in minutes
-                    </p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-7xl py-8">
-        <div className="mb-8 flex items-center justify-between">
+      <div className="mx-auto w-full max-w-7xl px-4 py-12">
+        <div className="mb-10 flex items-center justify-between">
           <div>
             <h2 className="text-3xl font-bold text-slate-800">Popular Picks</h2>
             <p className="mt-2 text-slate-500">
@@ -116,8 +84,10 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <div className="py-10 text-center italic text-slate-400">
-            Check back soon for fresh stock and store favorites.
+          <div className="py-20 text-center">
+            <p className="italic text-slate-400">
+              Check back soon for fresh stock and store favorites.
+            </p>
           </div>
         )}
       </div>
