@@ -5,37 +5,80 @@ import logo from "../assets/logo.png";
 import { useCartStore } from "../stores/useCartStore";
 import useGetCategories from "../hooks/useGetCategories";
 
+function useDebounce(value: string, delay: number) {
+  const [debounced, setDebounced] = useState(value);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
+
+  return debounced;
+}
+
 const Navbar = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { data: categories } = useGetCategories();
+
+  const urlSearch = searchParams.get("search") || "";
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(urlSearch);
+
+  const debouncedSearch = useDebounce(searchQuery, 400);
 
   const cart = useCartStore(state => state.cart);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   useEffect(() => {
+    const trimmed = debouncedSearch.trim();
+    if (trimmed !== urlSearch) {
+      if (trimmed.length > 2) {
+        navigate(`/products?search=${encodeURIComponent(trimmed)}`, {
+          replace: true,
+        });
+      } else if (trimmed.length === 0 && urlSearch !== "") {
+        navigate("/products", { replace: true });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    setSearchQuery(urlSearch);
+  }, [urlSearch]);
+
+  useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsMenuOpen(false);
     };
-
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+    const trimmed = searchQuery.trim();
+    if (trimmed) {
+      navigate(`/products?search=${encodeURIComponent(trimmed)}`);
     }
+  };
+
+  const handleLogoClick = () => {
+    setSearchQuery("");
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    navigate("/products");
   };
 
   return (
     <>
       <div className="navbar bg-white mb-6 rounded-[17px] shadow-lg px-4 lg:px-12 top-4 z-50 gap-4">
         <div className="flex-none">
-          <Link to="/">
+          <Link to="/" onClick={handleLogoClick}>
             <img
               src={logo}
               alt="Kwetu Stores Logo"
@@ -45,7 +88,7 @@ const Navbar = () => {
         </div>
 
         <form
-          onSubmit={handleSearch}
+          onSubmit={handleSearchSubmit}
           className="flex-1 hidden md:flex justify-center px-4"
         >
           <div className="relative w-full max-w-2xl">
@@ -54,8 +97,19 @@ const Navbar = () => {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Search products..."
-              className="input input-bordered h-10 w-full bg-white text-black border-gray-300 focus:border-[#ea580c] focus:outline-none pr-10"
+              className="input input-bordered h-10 w-full bg-white text-black border-gray-300 focus:border-[#ea580c] focus:outline-none pr-16"
             />
+
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={handleClearSearch}
+                className="absolute inset-y-0 right-8 flex items-center text-gray-400 hover:text-red-500"
+              >
+                <HiX size={18} />
+              </button>
+            )}
+
             <button
               type="submit"
               className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-[#ea580c]"
@@ -101,7 +155,6 @@ const Navbar = () => {
           </label>
         </div>
       </div>
-
       {isMenuOpen && (
         <div
           className="fixed inset-0 z-100 flex items-center justify-center p-4 sm:p-6"
@@ -141,7 +194,10 @@ const Navbar = () => {
                   <Link
                     key={cat.id}
                     to={`/products?category=${cat.id}`}
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setSearchQuery("");
+                    }}
                     className={`p-6 rounded-2xl border-2 transition-all flex items-center justify-between group ${
                       searchParams.get("category") === cat.id
                         ? "border-[#ea580c] bg-orange-50"
