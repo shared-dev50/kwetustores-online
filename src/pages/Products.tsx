@@ -22,6 +22,7 @@ const Products = () => {
 
   const updateCategory = (categoryId: string | null) => {
     const params = new URLSearchParams(searchParams);
+    params.delete("search");
 
     if (categoryId) {
       params.set("category", categoryId);
@@ -35,7 +36,7 @@ const Products = () => {
   const processedProducts = useMemo(() => {
     if (!products) return [];
 
-    let result = products;
+    let result = products.filter(p => p.enabledOnline === true);
 
     if (searchName) {
       result = result.filter(p => p.name?.toLowerCase().includes(searchName));
@@ -152,11 +153,13 @@ const Products = () => {
             ))}
           </div>
 
-          {processedProducts.length === 0 && (
+          {!products ? (
+            <div className="text-center py-20">Loading products…</div>
+          ) : processedProducts.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-gray-400">No products match your criteria.</p>
             </div>
-          )}
+          ) : null}
         </main>
       </div>
     </div>

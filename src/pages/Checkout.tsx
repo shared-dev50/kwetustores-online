@@ -5,7 +5,7 @@ import axios from "axios";
 type OrderType = "PICKUP" | "DELIVERY";
 
 const inputClass =
-  "w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-orange-500 focus:bg-white";
+  "w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-200 placeholder:text-slate-400";
 const labelClass =
   "mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-slate-400";
 
@@ -25,6 +25,21 @@ const Checkout = () => {
     zip: "",
     notes: "",
   });
+
+  const getFormError = () => {
+    if (!formData.fullName.trim()) return "Please enter your full name";
+    if (!formData.email.trim()) return "Please enter your email address";
+    if (!formData.phone.trim()) return "Please enter your phone number";
+
+    if (orderType === "DELIVERY") {
+      if (!formData.addressLine1.trim()) return "Please enter your address";
+      if (!formData.city.trim()) return "Please enter your city";
+      if (!formData.state.trim()) return "Please enter your state";
+      if (!formData.zip.trim()) return "Please enter your ZIP code";
+    }
+
+    return null;
+  };
 
   const updateField = (field: keyof typeof formData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -100,7 +115,7 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
       setLoading(false);
     }
   };
-
+  const formError = getFormError();
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-10">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-3">
@@ -160,7 +175,7 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                     required
                     value={formData.fullName}
                     className={inputClass}
-                    placeholder="Joe Doe"
+                    placeholder="Enter your full name"
                     onChange={e => updateField("fullName", e.target.value)}
                   />
                 </div>
@@ -314,10 +329,14 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                 </span>
               </div>
             </div>
-
+            {formError && (
+              <p className="mt-4 text-sm font-medium text-red-500">
+                {formError}
+              </p>
+            )}
             <button
               form="checkout-form"
-              disabled={loading || cart.length === 0}
+              disabled={loading || cart.length === 0 || !!formError || total === 0}
               className="mt-8 flex h-14 w-full items-center justify-center rounded-2xl bg-orange-600 px-6 text-sm font-black text-white transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? "Processing..." : "Pay"}
