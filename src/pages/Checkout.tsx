@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useCartStore } from "../stores/useCartStore";
 import axios from "axios";
 
@@ -50,7 +50,20 @@ const Checkout = () => {
     0,
   );
 
-  const total = subtotal;
+  const totalItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+
+  const shippingFee = useMemo(() => {
+    if (
+      orderType === "PICKUP" ||
+      totalItemsCount === 0 ||
+      totalItemsCount >= 4
+    ) {
+      return 0;
+    }
+    return totalItemsCount * 7;
+  }, [orderType, totalItemsCount]);
+
+  const total = subtotal + shippingFee;
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -315,19 +328,66 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                 </div>
               ))}
             </div>
-
             <div className="mt-6 space-y-3 border-t border-dashed border-slate-200 pt-6">
               <div className="flex justify-between text-sm text-slate-500">
-                <span>Subtotal</span>
+                <span>
+                  Subtotal ({totalItemsCount} item
+                  {totalItemsCount !== 1 ? "s" : ""})
+                </span>
                 <span>${subtotal.toFixed(2)}</span>
               </div>
 
+              {orderType === "DELIVERY" && subtotal > 0 && (
+                <div className="flex justify-between text-sm text-slate-500">
+                  <div className="flex flex-col">
+                    <span className="font-medium">Shipping</span>
+
+                    {totalItemsCount < 4 && totalItemsCount > 0 && (
+                      <span className="text-[10px] leading-none text-slate-400">
+                        $7.00 × {totalItemsCount} items
+                      </span>
+                    )}
+                  </div>
+                  <span
+                    className={
+                      totalItemsCount >= 4
+                        ? "font-bold text-green-600"
+                        : "font-bold text-slate-900"
+                    }
+                  >
+                    {totalItemsCount >= 4
+                      ? "FREE"
+                      : `$${(totalItemsCount * 7).toFixed(2)}`}
+                  </span>
+                </div>
+              )}
+
               <div className="flex items-center justify-between border-t border-slate-100 pt-4">
-                <span className="text-lg font-black text-slate-900">Total</span>
+                <div className="flex flex-col">
+                  <span className="text-lg font-black text-slate-900">
+                    Total
+                  </span>
+                  <span className="text-[10px] uppercase tracking-wider text-slate-400">
+                    Inc. Taxes & Fees
+                  </span>
+                </div>
                 <span className="text-3xl font-black text-orange-600">
                   ${total.toFixed(2)}
                 </span>
               </div>
+
+              {orderType === "DELIVERY" &&
+                totalItemsCount > 0 &&
+                totalItemsCount < 4 && (
+                  <div className="mt-4 rounded-xl border border-orange-100 bg-orange-50 p-3">
+                    <p className="text-[11px] font-bold leading-tight text-orange-700">
+                      🚀 Save ${(totalItemsCount * 7).toFixed(2)}! Add{" "}
+                      {4 - totalItemsCount} more item
+                      {4 - totalItemsCount > 1 ? "s" : ""} to unlock FREE
+                      Delivery.
+                    </p>
+                  </div>
+                )}
             </div>
             {formError && (
               <p className="mt-4 text-sm font-medium text-red-500">
@@ -336,8 +396,10 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
             )}
             <button
               form="checkout-form"
-              disabled={loading || cart.length === 0 || !!formError || total === 0}
-              className="mt-8 flex h-14 w-full items-center justify-center rounded-2xl bg-orange-600 px-6 text-sm font-black text-white transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={
+                loading || cart.length === 0 || !!formError || total === 0
+              }
+              className="mt-8 flex h-14 w-full items-center justify-center rounded-2xl bg-orange-600 px-6 text-sm font-black text-white transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
             >
               {loading ? "Processing..." : "Pay"}
             </button>
