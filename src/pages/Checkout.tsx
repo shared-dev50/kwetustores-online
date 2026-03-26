@@ -52,16 +52,13 @@ const Checkout = () => {
 
   const totalItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
-  const shippingFee = useMemo(() => {
-    if (
-      orderType === "PICKUP" ||
-      totalItemsCount === 0 ||
-      totalItemsCount >= 4
-    ) {
+const shippingFee = useMemo(() => {
+    if (orderType === "PICKUP" || totalItemsCount === 0) {
       return 0;
     }
-    return totalItemsCount * 7;
+    return Math.min(totalItemsCount * 7, 21);
   }, [orderType, totalItemsCount]);
+
 
   const total = subtotal + shippingFee;
 
@@ -310,16 +307,11 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
           <div className="sticky top-24 rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
             <h2 className="text-xl font-black text-slate-900">Order Summary</h2>
 
-            <div className="mt-6 max-h-72 space-y-4 overflow-y-auto pr-1">
+         <div className="mt-6 max-h-72 space-y-4 overflow-y-auto pr-1">
               {cart.map(item => (
-                <div
-                  key={item.product.id}
-                  className="flex items-start justify-between gap-4 text-sm"
-                >
+                <div key={item.product.id} className="flex items-start justify-between gap-4 text-sm">
                   <div className="flex-1 text-slate-600">
-                    <span className="mr-2 font-bold text-orange-600">
-                      {item.quantity}×
-                    </span>
+                    <span className="mr-2 font-bold text-orange-600">{item.quantity}×</span>
                     {item.product.name}
                   </div>
                   <div className="font-bold text-slate-900">
@@ -328,12 +320,9 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                 </div>
               ))}
             </div>
-            <div className="mt-6 space-y-3 border-t border-dashed border-slate-200 pt-6">
+          <div className="mt-6 space-y-3 border-t border-dashed border-slate-200 pt-6">
               <div className="flex justify-between text-sm text-slate-500">
-                <span>
-                  Subtotal ({totalItemsCount} item
-                  {totalItemsCount !== 1 ? "s" : ""})
-                </span>
+                <span>Subtotal ({totalItemsCount} item{totalItemsCount !== 1 ? "s" : ""})</span>
                 <span>${subtotal.toFixed(2)}</span>
               </div>
 
@@ -341,53 +330,35 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                 <div className="flex justify-between text-sm text-slate-500">
                   <div className="flex flex-col">
                     <span className="font-medium">Shipping</span>
-
-                    {totalItemsCount < 4 && totalItemsCount > 0 && (
-                      <span className="text-[10px] leading-none text-slate-400">
-                        $7.00 × {totalItemsCount} items
-                      </span>
-                    )}
+                    <span className="text-[10px] leading-none text-slate-400">
+                      {totalItemsCount >= 3 
+                        ? "Flat rate (3+ items)" 
+                        : `$7.00 × ${totalItemsCount} item${totalItemsCount > 1 ? 's' : ''}`}
+                    </span>
                   </div>
-                  <span
-                    className={
-                      totalItemsCount >= 4
-                        ? "font-bold text-green-600"
-                        : "font-bold text-slate-900"
-                    }
-                  >
-                    {totalItemsCount >= 4
-                      ? "FREE"
-                      : `$${(totalItemsCount * 7).toFixed(2)}`}
+                  <span className="font-bold text-slate-900">
+                    ${shippingFee.toFixed(2)}
                   </span>
                 </div>
               )}
 
               <div className="flex items-center justify-between border-t border-slate-100 pt-4">
                 <div className="flex flex-col">
-                  <span className="text-lg font-black text-slate-900">
-                    Total
-                  </span>
-                  <span className="text-[10px] uppercase tracking-wider text-slate-400">
-                    Inc. Taxes & Fees
-                  </span>
+                  <span className="text-lg font-black text-slate-900">Total</span>
+                  <span className="text-[10px] uppercase tracking-wider text-slate-400">Inc. Taxes & Fees</span>
                 </div>
                 <span className="text-3xl font-black text-orange-600">
                   ${total.toFixed(2)}
                 </span>
               </div>
 
-              {orderType === "DELIVERY" &&
-                totalItemsCount > 0 &&
-                totalItemsCount < 4 && (
-                  <div className="mt-4 rounded-xl border border-orange-100 bg-orange-50 p-3">
-                    <p className="text-[11px] font-bold leading-tight text-orange-700">
-                      🚀 Save ${(totalItemsCount * 7).toFixed(2)}! Add{" "}
-                      {4 - totalItemsCount} more item
-                      {4 - totalItemsCount > 1 ? "s" : ""} to unlock FREE
-                      Delivery.
-                    </p>
-                  </div>
-                )}
+              {orderType === "DELIVERY" && totalItemsCount > 0 && totalItemsCount < 3 && (
+                <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 p-3">
+                  <p className="text-[11px] font-bold leading-tight text-blue-700">
+                    💡 Note: Shipping is $7 per item, capped at a maximum of $21.00.
+                  </p>
+                </div>
+              )}
             </div>
             {formError && (
               <p className="mt-4 text-sm font-medium text-red-500">

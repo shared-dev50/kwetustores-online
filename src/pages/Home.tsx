@@ -47,12 +47,6 @@ const Home = () => {
             </p>
           </div>
 
-          <button
-            className="text-sm font-bold text-[#ea580c] hover:underline cursor-pointer"
-            onClick={() => navigate("/products")}
-          >
-            View All
-          </button>
         </div>
 
         {featuredProducts && featuredProducts.length > 0 ? (
@@ -66,6 +60,15 @@ const Home = () => {
             <p className="italic text-slate-400">Loading fresh stock...</p>
           </div>
         )}
+       <div className="mt-6 flex justify-end">
+          <button
+            className="text-sm font-bold text-[#ea580c] hover:underline cursor-pointer"
+            onClick={() => navigate("/products")}
+          >
+            View All 
+           
+          </button>
+        </div>
       </div>
     </>
   );
