@@ -53,11 +53,11 @@ const Checkout = () => {
   const totalItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
 const shippingFee = useMemo(() => {
-    if (orderType === "PICKUP" || totalItemsCount === 0) {
-      return 0;
-    }
-    return Math.min(totalItemsCount * 7, 21);
-  }, [orderType, totalItemsCount]);
+  if (orderType === "PICKUP" || totalItemsCount === 0) {
+    return 0;
+  }
+  return totalItemsCount * 7;
+}, [orderType, totalItemsCount]);
 
 
   const total = subtotal + shippingFee;
@@ -326,21 +326,19 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                 <span>${subtotal.toFixed(2)}</span>
               </div>
 
-              {orderType === "DELIVERY" && subtotal > 0 && (
-                <div className="flex justify-between text-sm text-slate-500">
-                  <div className="flex flex-col">
-                    <span className="font-medium">Shipping</span>
-                    <span className="text-[10px] leading-none text-slate-400">
-                      {totalItemsCount >= 3 
-                        ? "Flat rate (3+ items)" 
-                        : `$7.00 × ${totalItemsCount} item${totalItemsCount > 1 ? 's' : ''}`}
-                    </span>
-                  </div>
-                  <span className="font-bold text-slate-900">
-                    ${shippingFee.toFixed(2)}
-                  </span>
-                </div>
-              )}
+             {orderType === "DELIVERY" && subtotal > 0 && (
+  <div className="flex justify-between text-sm text-slate-500">
+    <div className="flex flex-col">
+      <span className="font-medium">Shipping</span>
+      <span className="text-[10px] leading-none text-slate-400">
+        {`$7.00 × ${totalItemsCount} item${totalItemsCount > 1 ? 's' : ''}`}
+      </span>
+    </div>
+    <span className="font-bold text-slate-900">
+      ${shippingFee.toFixed(2)}
+    </span>
+  </div>
+)}
 
               <div className="flex items-center justify-between border-t border-slate-100 pt-4">
                 <div className="flex flex-col">
@@ -352,13 +350,13 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
                 </span>
               </div>
 
-              {orderType === "DELIVERY" && totalItemsCount > 0 && totalItemsCount < 3 && (
-                <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 p-3">
-                  <p className="text-[11px] font-bold leading-tight text-blue-700">
-                    💡 Note: Shipping is $7 per item, capped at a maximum of $21.00.
-                  </p>
-                </div>
-              )}
+         {orderType === "DELIVERY" && totalItemsCount > 0 && (
+  <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 p-3">
+    <p className="text-[11px] font-bold leading-tight text-blue-700">
+      💡 Note: Shipping is calculated at a flat rate of $7.00 per item in your cart.
+    </p>
+  </div>
+)}
             </div>
             {formError && (
               <p className="mt-4 text-sm font-medium text-red-500">
