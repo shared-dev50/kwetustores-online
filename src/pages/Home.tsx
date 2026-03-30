@@ -8,20 +8,31 @@ const Home = () => {
   const navigate = useNavigate();
   const { data: products } = useGetAllProducts();
 
-  const featuredProducts = useMemo(() => {
-    if (!products) return [];
+  // const featuredProducts = useMemo(() => {
+  //   if (!products) return [];
 
-    return (
-      [...products]
-        .filter(
-          product =>
-            (product.stockQuantity ?? 0) > 0 && product.enabledOnline === true,
-        )
-        // eslint-disable-next-line react-hooks/purity
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 12)
-    );
-  }, [products]);
+  //   return (
+  //     [...products]
+  //       .filter(
+  //         product =>
+  //           (product.stockQuantity ?? 0) > 0 && product.enabledOnline === true,
+  //       )
+  //       // eslint-disable-next-line react-hooks/purity
+  //       .sort(() => Math.random() - 0.5)
+  //       .slice(0, 12)
+  //   );
+  // }, [products]);
+const featuredProducts = useMemo(() => {
+  if (!products) return [];
+
+  return [...products]
+    .filter(product => 
+      product.hidden !== true 
+    )
+    // eslint-disable-next-line react-hooks/purity
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 12);
+}, [products]);
 
   return (
     <>

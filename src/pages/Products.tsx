@@ -36,7 +36,8 @@ const Products = () => {
   const processedProducts = useMemo(() => {
     if (!products) return [];
 
-    let result = products.filter(p => p.enabledOnline === true);
+    // let result = products.filter(p => p.enabledOnline === true);
+    let result = products.filter(p => p.hidden !== true);
 
     if (searchName) {
       result = result.filter(p => p.name?.toLowerCase().includes(searchName));
