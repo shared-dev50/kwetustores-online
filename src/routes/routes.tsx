@@ -5,6 +5,8 @@ import ProductDetails from "../pages/ProductDetails";
 import Layout from "../pages/Layout";
 import Checkout from "../pages/Checkout";
 import Success from "../pages/Success";
+import Cancel from "../pages/Cancel";
+import Failure from "../pages/Failure";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: "success",
         element: <Success />,
+      },
+       {
+        path: "cancel",
+        element: <Cancel />,
+      },
+       {
+        path: "failure",
+        element: <Failure />,
       },
     ],
   },
