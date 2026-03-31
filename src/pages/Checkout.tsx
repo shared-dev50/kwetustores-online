@@ -62,6 +62,8 @@ const shippingFee = useMemo(() => {
 
   const total = subtotal + shippingFee;
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -104,7 +106,8 @@ ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
         address: combinedNote,
       };
 
-      const { data } = await axios.post("/api/clover/create-checkout", payload);
+      // const { data } = await axios.post("/api/clover/create-checkout", payload);
+      const { data } = await axios.post(`${API_BASE_URL}/api/clover/create-checkout`, payload);
 
       if (data.success && data.checkoutUrl) {
         window.location.href = data.checkoutUrl;
