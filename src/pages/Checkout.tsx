@@ -87,28 +87,20 @@ const shippingFee = useMemo(() => {
           ? `${addressLine1}${addressLine2 ? `, ${addressLine2}` : ""}, ${city}, ${state} ${zip}`
           : "STORE PICKUP";
 
-const combinedNote = `
-ORDER TYPE: ${orderType}
-${orderType === "DELIVERY" ? `SHIP TO: ${formattedAddress}` : "METHOD: Pickup at Store"}
-
-CUSTOMER EMAIL: ${formData.email}
-PHONE: ${formData.phone}
-FULL NAME: ${formData.fullName}
-
-${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
-`.trim();
-
-      const payload = {
-        items: cart,
-        customer: {
-          firstName,
-          lastName,
-          email: formData.email,
-          phoneNumber: formData.phone,
-        },
-        orderType,
-        address: combinedNote,
-      };
+const payload = {
+  items: cart,
+  customer: {
+    firstName,
+    lastName,
+    email: formData.email,
+    phoneNumber: formData.phone,
+    fullName: formData.fullName,
+  },
+  orderType,
+  address: orderType === "DELIVERY" ? formattedAddress : "",
+  customerNote: formData.notes || "",
+};
+console.log("📦 Checkout payload:", payload);
 
       // const { data } = await axios.post("/api/clover/create-checkout", payload);
       const { data } = await axios.post(`${API_BASE_URL}/api/clover/create-checkout`, payload);
