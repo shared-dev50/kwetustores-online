@@ -87,12 +87,16 @@ const shippingFee = useMemo(() => {
           ? `${addressLine1}${addressLine2 ? `, ${addressLine2}` : ""}, ${city}, ${state} ${zip}`
           : "STORE PICKUP";
 
-      const combinedNote = `
+const combinedNote = `
 ORDER TYPE: ${orderType}
 ${orderType === "DELIVERY" ? `SHIP TO: ${formattedAddress}` : "METHOD: Pickup at Store"}
+
+CUSTOMER EMAIL: ${formData.email}
 PHONE: ${formData.phone}
+FULL NAME: ${formData.fullName}
+
 ${formData.notes ? `CUSTOMER NOTE: ${formData.notes}` : ""}
-      `.trim();
+`.trim();
 
       const payload = {
         items: cart,
