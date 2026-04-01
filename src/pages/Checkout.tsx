@@ -92,9 +92,9 @@ const payload = {
   customer: {
     firstName,
     lastName,
+    fullName: formData.fullName,
     email: formData.email,
     phoneNumber: formData.phone,
-    fullName: formData.fullName,
   },
   orderType,
   address: orderType === "DELIVERY" ? formattedAddress : "",
