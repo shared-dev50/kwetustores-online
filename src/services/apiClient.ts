@@ -23,7 +23,7 @@ class APIClient<T> {
         config,
       );
 
-      console.log(`Fetch successful for ${this.endpoint}:`, res.data);
+      // console.log(`Fetch successful for ${this.endpoint}:`, res.data);
 
       return res.data.data;
     } catch (error) {

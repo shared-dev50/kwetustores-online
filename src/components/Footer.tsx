@@ -9,9 +9,10 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="mt-12 rounded-t-[40px] border-t border-slate-200 bg-white text-slate-600 shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.05)]">
-      <div className="mx-auto max-w-7xl px-6 py-10">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
+    <footer className="mt-10 sm:mt-12 rounded-t-4xl sm:rounded-t-[40px] border-t border-slate-200 bg-white text-slate-600 shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.05)]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8 sm:py-10">
+        <div className="grid grid-cols-1 gap-8 sm:gap-10 md:grid-cols-3">
+          {/* Brand */}
           <div className="space-y-4">
             <h2 className="text-2xl font-black text-[#ea580c]">Kwetu Stores</h2>
             <p className="max-w-md text-sm leading-6 text-slate-500">
@@ -20,21 +21,33 @@ const Footer = () => {
             </p>
 
             <div className="flex gap-4 pt-1 text-[#ea580c]">
-              <FaFacebook
-                size={18}
-                className="cursor-pointer transition-transform hover:scale-110"
-              />
-              <FaInstagram
-                size={18}
-                className="cursor-pointer transition-transform hover:scale-110"
-              />
-              <FaWhatsapp
-                size={18}
-                className="cursor-pointer transition-transform hover:scale-110"
-              />
+              <a
+                href="#"
+                aria-label="Facebook"
+                className="transition-transform hover:scale-110"
+              >
+                <FaFacebook size={18} />
+              </a>
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="transition-transform hover:scale-110"
+              >
+                <FaInstagram size={18} />
+              </a>
+              <a
+                href="https://wa.me/12533459965"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                className="transition-transform hover:scale-110"
+              >
+                <FaWhatsapp size={18} />
+              </a>
             </div>
           </div>
 
+          {/* Quick Links */}
           <div>
             <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900">
               Quick Links
@@ -57,14 +70,17 @@ const Footer = () => {
                   Checkout
                 </Link>
               </li>
-              <li>
-                <a className="transition-colors hover:text-[#ea580c] cursor-pointer">
-                  Contact Us
-                </a>
-              </li>
+
+           <a
+  href="mailto:kwetustores001@gmail.com"
+  className="transition-colors hover:text-[#ea580c]"
+>
+  Contact Us
+</a>
             </ul>
           </div>
 
+          {/* Store Info */}
           <div>
             <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-900">
               Store Information

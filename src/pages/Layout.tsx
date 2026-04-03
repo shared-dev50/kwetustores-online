@@ -11,12 +11,15 @@ const Layout = () => {
 
       <div className="drawer-content flex flex-col min-h-screen bg-[#F8F9FA]">
         <ScrollToTop />
-        <header className="sticky top-0 z-40 w-full px-5 pt-2">
+
+        <header className="sticky top-3 z-40 w-full px-3 sm:px-5 pt-2">
           <Navbar />
         </header>
-        <main className="px-5 flex-1">
+
+        <main className="px-3 sm:px-5 flex-1">
           <Outlet />
         </main>
+
         <Footer />
       </div>
 
