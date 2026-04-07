@@ -4,6 +4,7 @@ import {
   FaWhatsapp,
   FaPhoneAlt,
   FaMapMarkerAlt,
+  FaTiktok,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -16,27 +17,34 @@ const Footer = () => {
           <div className="space-y-4">
             <h2 className="text-2xl font-black text-[#ea580c]">Kwetu Stores</h2>
             <p className="max-w-md text-sm leading-6 text-slate-500">
-              Fresh groceries and everyday essentials for your home, with simple
+              Everyday essentials for your home, with simple
               ordering and convenient pickup or delivery.
             </p>
 
             <div className="flex gap-4 pt-1 text-[#ea580c]">
               <a
-                href="#"
+                href="#" target="_blank" rel="noopener noreferrer"
                 aria-label="Facebook"
                 className="transition-transform hover:scale-110"
               >
                 <FaFacebook size={18} />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/kwetustores?igsh=aGMybWF6bmt0anhw&utm_source=qr" target="_blank" rel="noopener noreferrer"
                 aria-label="Instagram"
                 className="transition-transform hover:scale-110"
               >
                 <FaInstagram size={18} />
               </a>
+                    <a
+                href="https://www.tiktok.com/@kwetu.stores?_r=1&_t=ZT-95Grxffs3jS" target="_blank" rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="transition-transform hover:scale-110"
+              >
+                <FaTiktok size={18} />
+              </a>
               <a
-                href="https://wa.me/12533459965"
+                href="https://wa.me/12539709400" 
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
@@ -99,10 +107,10 @@ const Footer = () => {
               <div className="flex items-center gap-3">
                 <FaPhoneAlt className="shrink-0 text-[#ea580c]" />
                 <a
-                  href="tel:+12533459965"
+                  href="tel:+12539709400"
                   className="transition-colors hover:text-[#ea580c]"
                 >
-                  (253) 345-9965
+                  (253) 970-9400
                 </a>
               </div>
             </div>
