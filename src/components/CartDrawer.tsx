@@ -6,11 +6,13 @@ import {
   HiTrash,
 } from "react-icons/hi";
 import { useCartStore } from "../stores/useCartStore";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
+import { useSearchStore } from "../stores/useSearchStore";
 
 const CartDrawer = () => {
   const navigate = useNavigate();
   const { cart, removeItem, updateQuantity } = useCartStore();
+  const { setSearchQuery } = useSearchStore();
 
   const subtotal = cart.reduce(
     (acc, item) => acc + item.product.price * item.quantity,
@@ -130,14 +132,17 @@ const CartDrawer = () => {
           </div>
 
           <button
-            onClick={() => {
-              const drawerCheckbox = document.getElementById(
-                "my-drawer-5",
-              ) as HTMLInputElement;
-              if (drawerCheckbox) drawerCheckbox.checked = false;
+        onClick={() => {
+  setSearchQuery(""); 
 
-              navigate("/checkout");
-            }}
+  const drawerCheckbox = document.getElementById(
+    "my-drawer-5",
+  ) as HTMLInputElement;
+
+  if (drawerCheckbox) drawerCheckbox.checked = false;
+
+  navigate("/checkout", { replace: true });
+}}
             disabled={cart.length === 0}
             className="btn w-full bg-[#ea580c] hover:bg-[#d94e08] border-none text-white font-bold text-lg shadow-lg h-14"
           >

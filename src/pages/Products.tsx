@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo} from "react";
 import { useSearchParams } from "react-router-dom";
 import { HiX, HiFilter } from "react-icons/hi";
 import ProductCard from "../components/ProductCard";
@@ -6,7 +6,7 @@ import useGetAllProducts from "../hooks/useGetAllProducts";
 import useGetCategories from "../hooks/useGetCategories";
 
 const Products = () => {
-  const { data: products } = useGetAllProducts();
+  const { data: products, isLoading} = useGetAllProducts();
   const { data: categories} = useGetCategories();
   const [searchParams, setSearchParams] = useSearchParams();
   
@@ -44,6 +44,7 @@ const Products = () => {
       return 0;
     });
   }, [products, selectedCategoryId, searchName, maxPrice, sortBy]);
+
 
   return (
     <div className="bg-[#F8F9FA] min-h-screen px-4 md:px-6">
@@ -145,7 +146,7 @@ const Products = () => {
               {processedProducts.map(p => <ProductCard key={p.id} product={p} />)}
             </div>
 
-            {processedProducts.length === 0 && (
+            {!isLoading && processedProducts.length === 0 && (
               <div className="text-center py-24 bg-white rounded-3xl border border-dashed border-slate-200">
                 <p className="text-slate-400 font-medium">No matches found for your current filters.</p>
               </div>
