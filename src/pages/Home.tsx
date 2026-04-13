@@ -3,10 +3,11 @@ import ProductCard from "../components/ProductCard";
 import useGetAllProducts from "../hooks/useGetAllProducts";
 import { useMemo } from "react";
 import kwetu from "../assets/kwetu.png";
+import ProductCardSkeleton from "../components/ProductCardSkeleton";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { data: products } = useGetAllProducts();
+  const { data: products, isLoading } = useGetAllProducts();
 
   // const featuredProducts = useMemo(() => {
   //   if (!products) return [];
@@ -56,17 +57,23 @@ const Home = () => {
           </div>
         </div>
 
-        {featuredProducts && featuredProducts.length > 0 ? (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-            {featuredProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        ) : (
-          <div className="py-10 text-center">
-            <p className="italic text-slate-400">Loading fresh stock...</p>
-          </div>
-        )}
+     {isLoading ? (
+  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+    {Array.from({ length: 8 }).map((_, i) => (
+      <ProductCardSkeleton key={i} />
+    ))}
+  </div>
+) : featuredProducts.length > 0 ? (
+  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+    {featuredProducts.map(product => (
+      <ProductCard key={product.id} product={product} />
+    ))}
+  </div>
+) : (
+  <div className="py-10 text-center">
+    <p className="italic text-slate-400">No products found</p>
+  </div>
+)}
 
         <div className="mt-6 flex justify-end">
           <button

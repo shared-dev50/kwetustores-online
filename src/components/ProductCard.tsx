@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { HiPlus } from "react-icons/hi";
 import { useCartStore } from "../stores/useCartStore";
 import type { CloverItem } from "../entities/types";
+import { useState } from "react";
 
 interface Props {
   product: CloverItem;
@@ -9,6 +10,9 @@ interface Props {
 
 const ProductCard = ({ product }: Props) => {
   const addItem = useCartStore(state => state.addItem);
+  const [imgLoaded, setImgLoaded] = useState(false);
+const imageUrl = product.images?.elements?.[0]?.url;
+
   const isOutOfStock = (product.stockQuantity ?? 0) <= 0;
 
   const CardContent = (
@@ -22,22 +26,37 @@ const ProductCard = ({ product }: Props) => {
           </div>
         )}
 
-        {product.images?.elements?.[0]?.url ? (
-          <img
-            src={product.images.elements[0].url}
-            alt={product.name}
-            className={`w-full h-full object-cover transition-transform duration-500 
-              ${isOutOfStock ? "grayscale opacity-50" : "group-hover:scale-110"}`}
-          />
-        ) : (
-          <div
-            className={`text-gray-400 transition-transform duration-500 text-center px-2 ${!isOutOfStock && "group-hover:scale-110"}`}
-          >
-            <span className="text-xs font-medium uppercase tracking-widest">
-              {product.name}
-            </span>
-          </div>
-        )}
+   {imageUrl ? (
+  <div className="relative w-full h-full">
+    {/* Blur placeholder */}
+    {!imgLoaded && (
+      <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+    )}
+
+    <img
+      src={imageUrl}
+      alt={product.name}
+      loading="lazy"
+      decoding="async"
+      onLoad={() => setImgLoaded(true)}
+      className={`
+        w-full h-full object-cover transition-all duration-500
+        ${imgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-105"}
+        ${isOutOfStock ? "grayscale opacity-50" : ""}
+      `}
+    />
+  </div>
+) : (
+  <div
+    className={`text-gray-400 transition-transform duration-500 text-center px-2 ${
+      !isOutOfStock && "group-hover:scale-110"
+    }`}
+  >
+    <span className="text-xs font-medium uppercase tracking-widest">
+      {product.name}
+    </span>
+  </div>
+)}
       </figure>
 
       <div className="space-y-1">
