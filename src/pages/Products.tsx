@@ -4,11 +4,13 @@ import { HiX, HiFilter } from "react-icons/hi";
 import ProductCard from "../components/ProductCard";
 import useGetAllProducts from "../hooks/useGetAllProducts";
 import useGetCategories from "../hooks/useGetCategories";
+import ProductCardSkeleton from "../components/ProductCardSkeleton";
 
 const Products = () => {
   const { data: products, isLoading} = useGetAllProducts();
   const { data: categories} = useGetCategories();
   const [searchParams, setSearchParams] = useSearchParams();
+  const isReady = !isLoading && products;
   
   const selectedCategoryId = searchParams.get("category");
   const searchName = searchParams.get("search")?.toLowerCase() || "";
@@ -142,15 +144,23 @@ const Products = () => {
               </select>
             </div>
 
-           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {processedProducts.map(p => <ProductCard key={p.id} product={p} />)}
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  {isLoading
+    ? Array.from({ length: 9 }).map((_, i) => (
+        <ProductCardSkeleton key={i} />
+      ))
+    : processedProducts.map(p => (
+        <ProductCard key={p.id} product={p} />
+      ))}
+</div>
 
-            {!isLoading && processedProducts.length === 0 && (
-              <div className="text-center py-24 bg-white rounded-3xl border border-dashed border-slate-200">
-                <p className="text-slate-400 font-medium">No matches found for your current filters.</p>
-              </div>
-            )}
+         {isReady && processedProducts.length === 0 && (
+  <div className="text-center py-24 bg-white rounded-3xl border border-dashed border-slate-200">
+    <p className="text-slate-400 font-medium">
+      No matches found for your current filters.
+    </p>
+  </div>
+)}
           </main>
         </div>
       </div>
