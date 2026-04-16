@@ -58,11 +58,14 @@ const Checkout = () => {
     e.preventDefault();
     if (cart.length === 0) return;
     setLoading(true);
-
-    try {
+    try {    
       const nameParts = formData.fullName.trim().split(/\s+/);
       const payload = {
-        items: cart,
+        items: cart.map(item => ({
+    id: item.product.id,
+    quantity: item.quantity,
+    name: item.product.name 
+  })),
         customer: {
           firstName: nameParts[0] || "Customer",
           lastName: nameParts.slice(1).join(" ") || "Guest",
